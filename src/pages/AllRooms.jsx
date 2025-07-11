@@ -1,9 +1,56 @@
 import { useNavigate } from 'react-router-dom'
 import { assets, facilityIcons, roomsDummyData } from '../assets/assets'
 import StarRating from '../components/StarRating'
+import { useState } from 'react'
+
+// Capitalize component name
+const Checkbox = ({label, selected = false, onchange = () => {}}) => {
+    return (
+        <label className='flex items-center gap-3 cursor-pointer mt-2 text-sm'>
+            <input type='checkbox' checked={selected} onChange={(e) => onchange(e.target.checked, label)} />
+            <span className='font-light select-none'>
+            {label}
+            </span>
+        </label>
+    )
+}
+
+const RadioButton = ({label, selected = false, onchange = () => {}}) => {
+    return (
+        <label className='flex items-center gap-3 cursor-pointer mt-2 text-sm'>
+            <input type='radio' name='sortOption' checked={selected} onChange={() => onchange(label)} />
+            <span className='font-light select-none'>
+            {label}
+            </span>
+        </label>
+    )
+}
 
 const AllRooms = () => {
     const navigate = useNavigate()
+    const [openFilters, setOpenFilters] = useState(false)
+
+    const roomTypes = [
+        "Single Room",
+        "Double Room",
+        "Luxury Room",
+        "Family Room",
+    ];
+
+    const priceRanges = [
+        "Under $100",
+        "$100 - $200",
+        "$200 - $300",
+        "$300 - $400",
+        "Above $400"
+    ];
+
+    const sortOptions = [
+        "Price: Low to High",
+        "Price: High to Low",
+        "Newest First",
+    ]; // <-- Fixed missing bracket
+
   return (
     <div className='flex flex-col-reverse lg:flex-row items-start justify-between pt-28 md:pt-35 px-4 md:px-16 lg:px-24 xl:px-32'>
         <div>
@@ -29,7 +76,7 @@ const AllRooms = () => {
                     <span>{room.hotel.address}</span>
                 </div>
                 {/*Room Amenities*/}
-                <div className='flex items-wrap items-center gap-4 mt-3 mb-6'>
+                <div className='flex flex-wrap items-center gap-4 mt-3 mb-6'>
                     {room.amenities.map((item, index) => (
                         <div key={index} className='flex items-center gap-2'> 
                             <img src= {facilityIcons[item]} alt={item} className='w-5 h-5'/>
@@ -46,10 +93,40 @@ const AllRooms = () => {
         </div>
       {/*Filter Section*/}
       <div className='bg-white w-80 border border-gray-300 text-gray-600 max-lg:mb-8 min-lg:mt-16'>
-        <p>FILTERS</p>
-        <div>
-            <span>CLEAR</span>
+        <div className={`flex items-center justify-between px-5 py-2.5 min-lg:border-b border-gray-300 ${openFilters && 'border-b'}`}>
+            <p className='text-base font-medium text-gray-800'>FILTERS</p>
+            <div className='text-xs cursor-pointer'>
+                <span onClick={() => setOpenFilters(!openFilters)} className='lg:hidden'>
+                    {openFilters ? 'HIDE' : 'SHOW'} Filters
+                </span>
+                <span className='hidden lg:block'>CLEAR</span>
+            </div>
         </div>
+
+        <div className={`${openFilters ? 'h-auto' : 'h-0 lg:h-auto'} overflow-hidden transition-all duration-700`}>
+            <div className='px-5 pt-5'>
+                <p className='font-medium text-gray-800 pb-2'>Popular filters</p>
+                {roomTypes.map((room, index) => (
+                    <Checkbox key={index} label={room} />
+                ))}
+            </div>
+
+            <div className='px-5 pt-5'>
+                <p className='font-medium text-gray-800 pb-2'>Price Range</p>
+                {priceRanges.map((range, index) => (
+                    <Checkbox key={index} label={range} />
+                ))}
+            </div>
+
+            <div className='px-5 pt-5 pb-7'>
+                <p className='font-medium text-gray-800 pb-2'>Sort By</p>
+                {sortOptions.map((option, index) => (
+                    <RadioButton key={index} label={option}  />
+                ))}
+            </div>
+
+        </div>
+
       </div>
     </div>
   )
