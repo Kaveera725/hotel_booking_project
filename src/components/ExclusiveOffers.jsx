@@ -1,6 +1,5 @@
-import React from 'react'
-import Title from './Title'
 import { assets, exclusiveOffers } from '../assets/assets'
+import Title from './Title'
 
 const ExclusiveOffers = () => {
   const subTitleText = 'Take advantage of our limited-time offers and special packages to enhance your stay and create unforgettable memories.'
