@@ -24,7 +24,7 @@ const AddRoom = () => {
 
   return (
     <form>
-       <Title align='left' font='outfit' title='Add Room' subTitle='Fill in the details carefully and accurate form details, pricing and amenities to echance the user booking experience.' />
+       <Title align='left' font='outfit' title='Add Room' subtitle='Fill in the details carefully and accurate form details, pricing and amenities to enchance the user booking experience.' />
        {/* Upload Area For Images*/}
        <p className='test-gray-800 mt-10'>Images</p>
        <div className='grid grid-cols-2 sm:flex gap-4 my-2 flex-wrap'>
